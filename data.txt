@@ -1,0 +1,12 @@
+Data Container
+1.ViewData
+        => It send data from action to the View only.
+        => It require typecasting datatype conversion.
+2.TempData
+        => It send data from action to view as well as from current view to the next view .
+        =>typecasting is require
+3.ViewBag
+         =>It send data from action to the View only.
+         =>Typecasting is not  require
+4.Session
+         =>It store user info on the server side for specific time period.

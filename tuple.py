@@ -1,0 +1,6 @@
+data=(10,20,30,40)
+#print(type(data))
+st=list(data)
+st.append(90)
+data=tuple(st)
+print(data)

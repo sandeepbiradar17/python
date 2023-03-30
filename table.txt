@@ -1,0 +1,102 @@
+1.master 
+create table qualifications(qualification_id number primary key,qalification varchar(100) unique,flag int)
+
+create table specializations(specialization_id int primary key,specialization varchar(100),qualification_id int constraint qqid references qualifications(qualification_id),flag int)
+
+create table states(state_id int primary key,state_name varchar(100) unique,flag int)
+drop table cities
+
+
+create table cities(city_id int primary key,city_name varchar(100) unique,sate_id int constraint sid references states(state_id),flag int)
+
+create table locations(location_id int primary key,location_name varchar(100) unique,city_id int references cities(city_id))
+
+create table lead_sources (source_id int primary key,source_name varchar(100)unique,flag int)
+
+create table techologies(techology_id int primary key,techology_name varchar (100)unique,flag int)
+
+create table fees_mode(fee_mode_id int primary key,fee_module varchar(100) unique,flag int)
+
+create table designations(designation_id int primary key,designation varchar(100),flag int)
+
+create table Exam_levels(level_id int primary key,levela varchar(100),flag int)
+
+
+example and check data with example
+select * from qualifications
+insert into  qualifications values(1,'ajay',01)
+insert into  qualifications values(2,'vijay',02)
+
+insert into specializations values(2,'sanmd',2,0)
+
+select qalification,specialization from qualifications q join specializations s on q.qualification_id=s
+.qualification_id
+
+
+```````````````````````````````````````````````````````````````````````````````````````````
+2.training courses
+
+create table training_course(course_id int primary key,course_name varchar(100),course_code varchar(100),technology_id int constraint t_id references techologies(techology_id ),course_fees float,fees_mode_id int constraint fmf references fees_mode(fee_mode_id),flag int)
+
+create table training_modules(module_id int primary key,module_name varchar(100) unique,flag int)
+
+create table training_topics(topics_id int primary key,topics_name varchar(100) unique,flag int)
+
+
+create table training_course_modules(module_topics_id int primary key,module_id int constraint md references training_modules(module_id),topic_id int constraint td references training_topics(topics_id),flag int)
+
+
+create table training_course_fees(course_fee_id int primary key,course_id int constraint cid references training_course(course_id),fee_module_id int constraint fmi references fees_mode(fee_mode_id),amount int,flag int)
+
+
+`````````````````````````````````````````
+3.brach & center table
+create table center_details(center_id int primary key,center_code varchar(200) unique,center_name varchar(200) unique,center_type varchar(50),company_name varchar(200)unique,gst_number varchar (100)unique,address varchar(200),email_address varchar(50),password_ varchar(100),flag int)
+select * from center_details
+create table owner_details(owner_id int primary key,owner_name varchar(100) unique,center_id int constraint cd references center_details(center_id),address varchar(200),mobile_number varchar(50),specialization_id int constraint si references specializations(specialization_id),city_id int constraint ci references cities(city_id),email_address varchar(100),photo varchar(100),flag int)
+`````````````````````````````````````````````````
+4.employee table 
+
+create table roles (role_id int primary key,role varchar(100)unique,status varchar(100))
+
+create table employee_details(employee_id int primary key,employee_code varchar(100)unique, first_name varchar(100) unique,middle_name varchar(100),last_name varchar(100),birth_date date,join_date date,mobile_number varchar(100),email_address varchar(100),photo varchar(100),designation_id int constraint di references Designations(designation_id),location_id int constraint li references locations(location_id),permenant_address varchar(100),local_address varchar(100),center_id int constraint cci references center_details(center_id),passworda varchar(100),flag int)
+
+create table employee_attendance(attendance_id int primary key,employee_id int constraint eiq references employee_details(employee_id),attendance_date date,attendance_status date,status varchar(100))
+
+create table employee_training_sechedule(sechedule_id int primary key,employee_id int constraint eiw references employee_details(employee_id),training_name varchar(100),total_days int, training_by varchar(100),flag int)
+
+create table employee_login_activities(activity_id int primary key,employee_id int constraint eie references employee_details(employee_id))
+
+create table employee_qulifications(employee_qulification_id int primary key,employee_id int constraint eir references employee_details(employee_id),specialization_id int constraint siqq references specializations(specialization_id),medium varchar(100),passing_year int,percentage float,university varchar(100),status varchar(100))
+
+create table employee_documents(document_id int primary key,employee_id constraint edr references employee_details(employee_id),document_name varchar(100),image_name varchar(100),flag int)
+
+create table employee_salary_details(salary_id int primary key, employee_id int constraint edt references employee_details(employee_id),salary_date date,actual_date float(100),incentive_amount float,tax_deduction float, toal_prsent_days float,flag int)
+
+create table employee_assign_tasks(employee_task_id int primary key,employee_id constraint eit references employee_details(employee_id),task_date date,task_title varchar(100),description varchar(2000),flag int )
+
+create table employee_assign_tasks_answers(employee_task_answers_id int primary key,employee_task_id int constraint qwe references employee_assign_tasks(employee_task_id),answer varchar(2000),flag int )
+`````````````````````````
+4.leads & equties
+
+create table leads(lead_id int primary key,candidate_name varchar(100),email varchar(100),address varchar(100),specialization_id int constraint qwt references specializations(specialization_id),mobile_number varchar(20),source_id int constraint ls references lead_sources(source_id),flag int,center_id int constraint cidq references center_details(center_id))
+
+create table enquiries(enquiry_id int primary key,candidate_name varchar(100),email varchar(100),mobile_number varchar(100),birth_date date,address varchar(100),techology_id int constraint tlq references techologies(techology_id),source_id int constraint qwte references lead_sources(source_id),enquiry_date date,flag int)
+
+create table enquiry_qulifications(enquiry_qulification_id int primary key,enquiry_id int constraint qwet references enquiries(enquiry_id),employee_id int constraint qwtyu references employee_details(employee_id),description varchar(200),flag int)
+
+create table enquiry_results(result_id int primary key,enquiry_id int constraint qwas references enquiries(enquiry_id),employee_id int constraint qwy references employee_details(employee_id),description varchar(100),flag int)
+
+``````````````````````
+5.student
+
+create table student_details(student_id int primary key,sudent_code varchar(500) unique,first_name varchar(100),middle_name varchar(100),last_name varchar(100),email varchar(100),mobile_number varchar(100),alernative_number varchar(100),photo varchar(100),birth_date date,passworda varchar(100),location_id int constraint der references locations(location_id),local_address varchar(100),permenant_address varchar(100),center_id int constraint qwaqw references center_details(center_id),status varchar(100))
+
+
+create table student_qualifications(student_qualification int  primary key,student_id int constraint zas references student_details(student_id),specialization_id int constraint zaqw references specializations(specialization_id),medium varchar(100),passing_yaer int,percentage float,university varchar(100),status varchar(100))
+
+create table student_login_activities(activity_id int primary key,student_id constraint azxc references student_details(student_id),login_time date,logout_time date,status varchar(100))
+
+create table student_registration_details(registration_id int primary key,registration_code varchar(100) unique,student_id int constraint qwaxc references student_details(student_id),course_id int constraint qwert references training_course(course_id),joining_date date,course_fee_id int constraint qawer references training_course_fees(course_fee_id),discount float,discount_reason varchar(100),current_status varchar(100),employee_id int constraint weqr references employee_details(employee_id),status varchar(100))
+
+select * from employee_details
